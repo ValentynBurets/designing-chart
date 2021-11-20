@@ -1,0 +1,6 @@
+{
+    "ServerUrl": "https://localhost:44316/api",
+    "Routes": {
+        "GetTasks": "GetTasks"
+    }
+}
