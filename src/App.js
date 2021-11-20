@@ -5,6 +5,7 @@ import UserTaskListPage from "./Pages/UserTaskListPage/UserTaskListPage"
 import UserTaskPerformance from "./Pages/UserTaskPerformancePage/UserTaskPerformancePage"
 import AutorizationPage from "./Pages/AutorizationPage/AutorizationPage"
 import UserListPage from "./Pages/UserListPage/UserListPage"
+import pageurls from "./jsonData/pageURLs.json"
 
 import {
   BrowserRouter as Router,
@@ -26,10 +27,10 @@ export default function App() {
               <Link to="/about">About</Link>
             </li>
             <li>
-              <Link to="/user-task-list">UserTaskListPage</Link>
+              <Link to={pageurls.userTaskList}>UserTaskListPage</Link>
             </li>
             <li>
-              <Link to="/user-task-performance">UserTaskPerformance</Link>
+              <Link to={pageurls.userTaskPerformance}>UserTaskPerformance</Link>
             </li>
             <li>
               <Link to="/autorization">AutorizationPage</Link>
@@ -47,10 +48,10 @@ export default function App() {
             <Route path="/about">
               <About />
             </Route>
-            <Route path="/user-task-list">
+            <Route path={pageurls.userTaskList}>
               <UserTaskListPage />
             </Route>
-            <Route path="/user-task-performance">
+            <Route path={pageurls.userTaskPerformance}>
               <UserTaskPerformance />
             </Route>
             <Route path="/home">

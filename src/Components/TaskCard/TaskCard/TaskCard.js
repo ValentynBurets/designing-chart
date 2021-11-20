@@ -11,6 +11,8 @@ import PropTypes from 'prop-types'
 import Coll from 'react-bootstrap/Col'
 import TextData from '../../../jsonData/TaskCard.json'
 import './TaskCardStyle.sass'
+import pageurls from '../../../jsonData/pageURLs.json'
+
 
 export default function TaskCard(props) {
 
@@ -18,7 +20,7 @@ export default function TaskCard(props) {
 
     const viewOrder = () =>{
         history.push({
-            pathname: `/UserTaskPerformance/${props.task.id}`
+            pathname: pageurls.userTaskPerformance + "/" + `${props.task.id}`
         })
     }
 

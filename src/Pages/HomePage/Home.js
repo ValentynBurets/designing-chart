@@ -8,6 +8,7 @@ import designImage from './HomeImages/designImage.jpg'
 import informationImage from './HomeImages/informationImage.jpg'
 import TextData from "../../jsonData/Home.json"
 import './HomeStyle.sass'
+import pageurls from "../../jsonData/pageURLs.json"
 
 import {
     Card,
@@ -33,7 +34,7 @@ function Home(props){
                     bg="" 
                 border="success" 
                 className="cardTemplateStyle" 
-                 onClick={()=>{viewOrder("/UserTaskListPage")}}
+                 onClick={()=>{viewOrder(pageurls.userTaskList)}}
             >
                 <Row>
                     <Row className="PictureBlock">
