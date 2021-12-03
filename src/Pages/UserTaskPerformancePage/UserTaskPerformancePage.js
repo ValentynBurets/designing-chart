@@ -1,5 +1,16 @@
 import * as React from "react";
 import "../UserTaskPerformancePage/UserTaskPerformanceStyle.css";
+
+import {
+  Button,
+  Row,
+  Col
+} from 'react-bootstrap'
+
+import {
+  useHistory
+} from "react-router-dom";
+
 import {
 
   SymbolPaletteComponent,
@@ -604,10 +615,42 @@ function contextMenuOpen(args) {
 }
 
 function UserTaskPerformancePage(){
-  addEvents();
   
+  function handleSaveButClick(i){
+    let diagramElement = document.getElementById('diagram');
+    let diagram = diagramElement.ej2_instances[0];
+    let diagramJsonData = diagram.saveDiagram();
+  
+    console.log("Diagram is generated");
+    console.log(diagramJsonData);
+    //call to the back for save and check
+  }
+
+  function handleSendButClick(i){
+    let diagramElement = document.getElementById('diagram');
+    let diagram = diagramElement.ej2_instances[0];
+    let diagramJsonData = diagram.saveDiagram();
+  
+    console.log("Diagram is generated");
+    console.log(diagramJsonData);
+    //call to the back for save and check
+  }
+
   return (
-      <div className="control-pane">
+      <>
+
+      <div className="control-pane" style={{backgroundColor: 'grey'}}>
+        
+        <Row className="m-3" >
+          <Col lg={10}>
+            <Button variant="primary" className="m-1" onClick={handleSaveButClick}>Save</Button>
+            <Button variant="primary" className="m-1"  onClick={handleSendButClick}>Send for check</Button>
+          </Col>
+          <Col>
+            <Button variant="primary" onClick={useHistory().goBack}>Back</Button>
+          </Col>
+        </Row>
+
         <div className="control-section">
           <div
             id="palette-space"
@@ -687,6 +730,8 @@ function UserTaskPerformancePage(){
           </div>
         </div>
       </div>
+
+      </>
     );
 }
 
