@@ -9,7 +9,9 @@ import {
 
 import {
   useHistory
-} from "react-router-dom";
+} from "react-router-dom"
+
+import axios from 'axios'
 
 import {
 
@@ -616,24 +618,47 @@ function contextMenuOpen(args) {
 
 function UserTaskPerformancePage(){
   
+  state = {
+    startTime: Date().toLocaleString(),
+    finishTime: "",
+    exerciseId: "",
+    studentId: "",
+    chart: ""
+  };
+
   function handleSaveButClick(i){
+    //converting chart to Json
     let diagramElement = document.getElementById('diagram');
     let diagram = diagramElement.ej2_instances[0];
-    let diagramJsonData = diagram.saveDiagram();
-  
-    console.log("Diagram is generated");
-    console.log(diagramJsonData);
-    //call to the back for save and check
+    this.setState({chart: diagram.saveDiagram()});
+    
+    //call to the back for save
+    axios.post("https://localhost:44383/api/Attempt/Create", this.state)
+    .then(response  => {
+      console.log(response);
+    })
+    .cath(error => {
+      console.log(error);
+    })
   }
 
   function handleSendButClick(i){
+    //converting chart to Json
     let diagramElement = document.getElementById('diagram');
     let diagram = diagramElement.ej2_instances[0];
-    let diagramJsonData = diagram.saveDiagram();
-  
-    console.log("Diagram is generated");
-    console.log(diagramJsonData);
+    this.setState({chart: diagram.saveDiagram()});
+
+    //time of finnish
+    this.finishTime({chart: Date().toLocaleString()});
+    
     //call to the back for save and check
+    axios.post("https://localhost:44383/api/Attempt/Create", this.state)
+    .then(response  => {
+      console.log(response);
+    })
+    .cath(error => {
+      console.log(error);
+    })
   }
 
   return (
