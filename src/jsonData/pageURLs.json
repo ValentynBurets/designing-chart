@@ -1,4 +1,5 @@
 {
     "userTaskList": "/user-task-list",
-    "userTaskPerformance": "/user-task-performance"
+    "userTaskPerformance": "/user-task-performance",
+    "adminTaskCreation": "/admin-task-creation"
 }

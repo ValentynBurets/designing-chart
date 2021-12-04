@@ -1,14 +1,15 @@
 import React, {useState} from "react";
-import "../UserTaskPerformancePage/UserTaskPerformanceStyle.css";
+import "../AdminTaskCreationPage/AdminTaskCreationStyle.sass";
+import DateTimePicker from 'react-datetime-picker';
 
 import {
   Button,
   Row,
   Col,
-  FormControl
+  FormControl,
+  InputGroup,
+  Form
 } from 'react-bootstrap'
-
-import { useEffect } from "react";
 
 import {
   useHistory,
@@ -50,165 +51,7 @@ Diagram.Inject(DiagramContextMenu);
 
 let diagramInstance = new DiagramComponent;
 let diagram = new Diagram;
-let nodes = [
-  {
-    id: 'start', width: 40, height: 40, offsetX: 35, offsetY: 230, shape: {
-      type: 'Bpmn', shape: 'Event',
-      event: { event: 'Start' }
-    }
-  },
-  {
-    id: 'subProcess', width: 520, height: 250, offsetX: 355, offsetY: 230,
-    constraints: NodeConstraints.Default | NodeConstraints.AllowDrop,
-    shape: {
-      shape: 'Activity', type: 'Bpmn',
-      activity: {
-        activity: 'SubProcess', subProcess: {
-          type: 'Transaction', collapsed: false,
-          processes: ['processesStart', 'service', 'compensation', 'processesTask',
-            'error', 'processesEnd', 'user', 'subProcessesEnd']
-        }
-      }
-    }
-  },
-  {
-    id: 'hazardEnd', width: 40, height: 40, offsetX: 305, offsetY: 420, shape: {
-      type: 'Bpmn', shape: 'Event',
-      event: { event: 'End' },
-    }, annotations: [{
-      id: 'label2', content: 'Hazard',
-      style: { fill: 'white', color: 'black' }, verticalAlignment: 'Top', margin: { top: 20 }
-    }]
-  },
-  {
-    id: 'cancelledEnd', width: 40, height: 40, offsetX: 545, offsetY: 420, shape: {
-      type: 'Bpmn', shape: 'Event',
-      event: { event: 'End' },
-    }, annotations: [{
-      id: 'cancelledEndLabel2', content: 'Cancelled',
-      style: { fill: 'white', color: 'black' }, verticalAlignment: 'Top', margin: { top: 20 }
-    }]
-  },
-  {
-    id: 'end', width: 40, height: 40, offsetX: 665, offsetY: 230, shape: {
-      type: 'Bpmn', shape: 'Event',
-      event: { event: 'End' }
-    },
-  },
-  {
-    id: 'processesStart', width: 30, height: 30, shape: {
-      type: 'Bpmn', shape: 'Event',
-      event: { event: 'Start' }
-    }, margin: { left: 40, top: 80 }
-  },
-  {
-    id: 'service', style: { fill: '#6FAAB0' }, width: 95, height: 70,
-    shape: {
-      type: 'Bpmn', shape: 'Activity', activity: {
-        activity: 'Task', task: {
-          type: 'Service',
-          loop: 'parallelmultiinstance',
-        },
-      },
-    }, annotations: [{
-      id: 'serviceLabel2', content: 'Book hotel', offset: { x: 0.50, y: 0.50 },
-      style: { color: 'white', }
-    }], margin: { left: 110, top: 20 },
-  },
-  {
-    id: 'compensation', width: 30, height: 30,
-    shape: {
-      type: 'Bpmn', shape: 'Event',
-      event: { event: 'Intermediate', trigger: 'Compensation' }
-    }, margin: { left: 170, top: 100 }
-  },
-  {
-    id: 'processesTask', style: { fill: '#F6B53F' }, width: 95, height: 70,
-    shape: {
-      type: 'Bpmn', shape: 'Activity', activity: {
-        activity: 'Task', task: {
-          type: 'Service',
-        },
-      },
-    }, annotations: [{
-      id: 'serviceLabel2', content: 'Charge credit card', offset: { x: 0.50, y: 0.60 },
-      style: { color: 'white' }
-    }], margin: { left: 290, top: 20 },
-  },
-  {
-    id: 'error', width: 30, height: 30,
-    shape: {
-      type: 'Bpmn', shape: 'Event',
-      event: {
-        event: 'Intermediate', trigger: 'Error'
-      }
-    }, margin: { left: 350, top: 100 }
-  },
-  {
-    id: 'processesEnd', width: 30, height: 30, shape: {
-      type: 'Bpmn', shape: 'Event',
-      event: { event: 'End' }
-    }, margin: { left: 440, top: 80 }
-  },
-  {
-    id: 'user', style: { fill: '#E94649' }, width: 90, height: 80,
-    shape: {
-      type: 'Bpmn', shape: 'Activity', activity: {
-        activity: 'Task', task: {
-          type: 'User', Compensation: true, offset: { x: 0.50, y: 1 }
-        },
-      },
-    }, annotations: [{
-      id: 'serviceLabel2', content: 'Cancel hotel reservation', offset: { x: 0.50, y: 0.60 },
-      style: { color: 'white' }
-    }], margin: { left: 240, top: 160 },
-  },
-  {
-    id: 'subProcessesEnd', width: 30, height: 30, shape: {
-      type: 'Bpmn', shape: 'Event',
-      event: { event: 'End' }
-    }, margin: { left: 440, top: 210 }
-  },
-];
-let connectors = [
-  { id: 'connector1', sourceID: 'start', targetID: 'subProcess' },
-  { id: 'connector2', sourceID: 'subProcess', sourcePortID: 'success', targetID: 'end' },
-  {
-    id: 'connector3', sourceID: 'subProcess', sourcePortID: 'failure', targetID: 'hazardEnd', type: 'Orthogonal',
-    segments: [{ type: 'Orthogonal', length: 50, direction: 'Bottom' }],
-    annotations: [{
-      id: 'connector3Label2', content: 'Booking system failure', offset: 0.50,
-      style: { fill: 'white' }
-    }]
-  },
-  {
-    id: 'connector4', sourceID: 'subProcess', sourcePortID: 'cancel', targetID: 'cancelledEnd', type: 'Orthogonal',
-    segments: [{ type: 'Orthogonal', length: 50, direction: 'Bottom' }],
-  },
-  { id: 'connector5', sourceID: 'processesStart', targetID: 'service', type: 'Orthogonal', },
-  { id: 'connector6', sourceID: 'service', targetID: 'processesTask' },
-  { id: 'connector7', sourceID: 'processesTask', targetID: 'processesEnd', type: 'Orthogonal', },
-  {
-    id: 'connector8', sourceID: 'compensation', targetID: 'user', type: 'Orthogonal',
-    shape: {
-      type: 'Bpmn',
-      flow: 'association',
-      association: 'Directional'
-    }, style: {
-      strokeDashArray: '2,2'
-    },
-    segments: [{ type: 'Orthogonal', length: 30, direction: 'Bottom' },
-    { type: 'Orthogonal', length: 80, direction: 'Right' }]
-  },
-  {
-    id: 'connector9', sourceID: 'error', targetID: 'subProcessesEnd', type: 'Orthogonal',
-    annotations: [{
-      id: 'connector9Label2', content: 'Cannot charge card', offset: 0.50,
-      style: { fill: 'white', color: 'black' }
-    }],
-    segments: [{ type: 'Orthogonal', length: 50, direction: 'Bottom' }]
-  }
-];
+
 let bpmnShapes = [
   {
     id: 'Start', width: 35, height: 35, shape: {
@@ -619,47 +462,27 @@ function contextMenuOpen(args) {
   args.hiddenItems = hiddenId;
 }
 
-function UserTaskPerformancePage(){
-  
-  //get exercise ID, description and studentID
-  const location = useLocation();
-  const exerciseId = location.taskId;
-  const exerciseDescription = location.taskDescription;
- 
-  let [state, setState] = useState({
-    startTime: Date().toLocaleString(),
-    finishTime: "",
-    exerciseId: exerciseId,
-    chart: ""
-  });
+function AdminTaskCreationPage(){
+    let [state, setState] = useState({
+        exerciseTitle: "",
+        exerciseDescription: "",
+        maxMark: 1,
+        expirationDate: Date().toLocaleString(),
+        category: "",
+        etalonChart: ""});
 
-  function handleSaveButClick(i){
+  function handleCreateTaskButClick(i){
     //converting chart to Json
     let diagramElement = document.getElementById('diagram');
     let diagram = diagramElement.ej2_instances[0];
-    setState(prevState => ({...prevState, chart: diagram.saveDiagram()}));
+    let etalonChart = diagram.saveDiagram();
     
-    //call to the back for save
-    axios.post("https://localhost:44383/api/Attempt/Create", state)
-    .then(response  => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
-
-  function handleSendButClick(i){
-    //converting chart to Json
-    let diagramElement = document.getElementById('diagram');
-    let diagram = diagramElement.ej2_instances[0];
-    setState(prevState => ({...prevState, chart: diagram.saveDiagram()}));
-
-    //time of finnish
-    setState(prevState => ({...prevState, finishTime: Date().toLocaleString()}));
+    setState(prevState => ({...prevState, 
+        etalonChart: etalonChart
+    }));
     
-    //call to the back for save and check
-    axios.post("https://localhost:44383/api/Attempt/Create", state)
+    //POST request to create exercise
+    axios.post("https://localhost:44383/api/Exercises/Create", state)
     .then(response  => {
       console.log(response);
     })
@@ -675,18 +498,69 @@ function UserTaskPerformancePage(){
       
         <Row className="m-3" >
           <Col lg={10}>
-            <Button variant="primary" className="m-1" onClick={handleSaveButClick}>Save</Button>
-            <Button variant="primary" className="m-1"  onClick={handleSendButClick}>Send for check</Button>
+            <Button variant="primary" className="m-1" onClick={handleCreateTaskButClick}>Create task</Button>
           </Col>
           <Col>
             <Button variant="primary" onClick={useHistory().goBack}>Back</Button>
           </Col>
         </Row>
-        <FormControl
-          readOnly
-          type="text"
-          placeholder= {"Exercise description: " + exerciseDescription}
+
+        <InputGroup className="mb-3">
+            <InputGroup.Text id="exercise-title-input">Exercise title</InputGroup.Text>
+            <FormControl
+                onChange={e => setState(prevState => ({...prevState, 
+                    exerciseTitle: e.target.value
+                }))}
+                aria-label="Exercise title"
+                aria-describedby="exercise-title-input"
+            />
+        </InputGroup>
+        <InputGroup className="mb-3">
+            <InputGroup.Text id="exercise-description-input">Description</InputGroup.Text>
+            <FormControl
+                onChange={e => setState(prevState => ({...prevState, 
+                    exerciseDescription: e.target.value
+                }))}
+                aria-label="Exercise description"
+                aria-describedby="exercise-description-input"
+            />
+        </InputGroup>
+        <InputGroup className="mb-3">
+            <InputGroup.Text id="exercise-max-mark-input">Max mark</InputGroup.Text>
+            <FormControl
+                onChange={e => setState(prevState => ({...prevState, 
+                    maxMark: e.target.value
+                }))}
+                aria-label="Exercise max mark"
+                aria-describedby="exercise-max-mark-input"
+            />
+        </InputGroup>
+
+        <Form.Select
+            onChange={e => setState(prevState => ({...prevState, 
+                category: e.target.value
+            }))}>
+            <option>Category</option>
+            <option>First category</option>
+            <option>Second category</option>
+            <option>Third category</option>
+        </Form.Select>
+
+        <DateTimePicker 
+          id="finish-datetime-picker" 
+          name="Expiration date: "
+          required= {true}
+          showLeadingZeros= {true}
+          disableCalendar={true}
+          disableClock={true}
+          maxDetail="minute"
+          onChange={e => setState(prevState => ({...prevState, 
+            expirationDate: e.value
+          }))}
+          nativeInputAriaLabel="Date and time"
+          value={state.expirationDate}
         />
+
         <div className="control-section">
           <div
             id="palette-space"
@@ -771,4 +645,4 @@ function UserTaskPerformancePage(){
     );
 }
 
-export default UserTaskPerformancePage
+export default AdminTaskCreationPage
