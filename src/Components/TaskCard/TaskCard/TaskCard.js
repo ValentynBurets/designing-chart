@@ -20,7 +20,9 @@ export default function TaskCard(props) {
 
     const viewOrder = () =>{
         history.push({
-            pathname: pageurls.userTaskPerformance + "/" + `${props.task.id}`
+            pathname: pageurls.userTaskPerformance + "/" + `${props.task.id}`,
+            taskId: `${props.task.id}`,
+            taskDescription: `${props.task.textDescription}`
         })
     }
 

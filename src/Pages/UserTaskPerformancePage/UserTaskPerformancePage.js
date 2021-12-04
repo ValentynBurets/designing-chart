@@ -1,20 +1,23 @@
-import * as React from "react";
+import React, {useState} from "react";
 import "../UserTaskPerformancePage/UserTaskPerformanceStyle.css";
 
 import {
   Button,
   Row,
-  Col
+  Col,
+  FormControl
 } from 'react-bootstrap'
 
+import { useEffect } from "react";
+
 import {
-  useHistory
-} from "react-router-dom"
+  useHistory,
+  useLocation
+}  from "react-router-dom"
 
 import axios from 'axios'
 
 import {
-
   SymbolPaletteComponent,
   SymbolInfo,
   Diagram,
@@ -618,26 +621,32 @@ function contextMenuOpen(args) {
 
 function UserTaskPerformancePage(){
   
-  state = {
+  //get exercise ID, description and studentID
+  const location = useLocation();
+  const exerciseId = location.taskId;
+  const exerciseDescription = location.taskDescription;
+  const studentId = 1 //location.studentId;
+ 
+  let [state, setState] = useState({
     startTime: Date().toLocaleString(),
     finishTime: "",
-    exerciseId: "",
-    studentId: "",
+    exerciseId: exerciseId,
+    studentId: studentId,
     chart: ""
-  };
+  });
 
   function handleSaveButClick(i){
     //converting chart to Json
     let diagramElement = document.getElementById('diagram');
     let diagram = diagramElement.ej2_instances[0];
-    this.setState({chart: diagram.saveDiagram()});
+    setState(prevState => ({...prevState, chart: diagram.saveDiagram()}));
     
     //call to the back for save
-    axios.post("https://localhost:44383/api/Attempt/Create", this.state)
+    axios.post("https://localhost:44383/api/Attempt/Create", state)
     .then(response  => {
       console.log(response);
     })
-    .cath(error => {
+    .catch(error => {
       console.log(error);
     })
   }
@@ -646,17 +655,17 @@ function UserTaskPerformancePage(){
     //converting chart to Json
     let diagramElement = document.getElementById('diagram');
     let diagram = diagramElement.ej2_instances[0];
-    this.setState({chart: diagram.saveDiagram()});
+    setState(prevState => ({...prevState, chart: diagram.saveDiagram()}));
 
     //time of finnish
-    this.finishTime({chart: Date().toLocaleString()});
+    setState(prevState => ({...prevState, finishTime: Date().toLocaleString()}));
     
     //call to the back for save and check
-    axios.post("https://localhost:44383/api/Attempt/Create", this.state)
+    axios.post("https://localhost:44383/api/Attempt/Create", state)
     .then(response  => {
       console.log(response);
     })
-    .cath(error => {
+    .catch(error => {
       console.log(error);
     })
   }
@@ -665,7 +674,7 @@ function UserTaskPerformancePage(){
       <>
 
       <div className="control-pane" style={{backgroundColor: 'grey'}}>
-        
+      
         <Row className="m-3" >
           <Col lg={10}>
             <Button variant="primary" className="m-1" onClick={handleSaveButClick}>Save</Button>
@@ -675,7 +684,11 @@ function UserTaskPerformancePage(){
             <Button variant="primary" onClick={useHistory().goBack}>Back</Button>
           </Col>
         </Row>
-
+        <FormControl
+          readOnly
+          type="text"
+          placeholder= {"Exercise description: " + exerciseDescription}
+        />
         <div className="control-section">
           <div
             id="palette-space"
