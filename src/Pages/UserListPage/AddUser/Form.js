@@ -10,7 +10,7 @@ import { DropdownButton } from 'react-bootstrap';
 import { Dropdown } from 'react-bootstrap';
 
 function AddUserForm({ addUserModal }) {
-  //const [role, setRole] = useState('Choose Role');
+  const [role, setRole] = useState('Choose Role');
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -19,9 +19,9 @@ function AddUserForm({ addUserModal }) {
     password: ''
   })
 
-  function setRole(role) {
-    setForm(prevState => ({ ...prevState, role }))
-}
+  //function setRole(role) {
+  //  setForm(prevState => ({ ...prevState, role }))
+//}
 
   const [errors, setErrors] = useState({})
 
@@ -151,8 +151,8 @@ function AddUserForm({ addUserModal }) {
         <DropdownButton
           name='role'
           alignRight
-          title={TextData.Role}
-          value={form.role}
+          title={role}
+          value={role}
           id="dropdown-menu-align-right"
           onSelect = {(e) => RoleSelect(e)}
           >
