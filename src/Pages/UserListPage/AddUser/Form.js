@@ -6,15 +6,17 @@ import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
 import TextField from '@material-ui/core/TextField'
 import TextData from '../../../jsonData/UserList.json'
-
+import { DropdownButton } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
 
 function AddUserForm({ addUserModal }) {
+  const [role, setRole] = useState('Choose Role');
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
     position: '',
     email: '',
-    password: '',
+    password: ''
   })
 
   const [errors, setErrors] = useState({})
@@ -24,6 +26,12 @@ function AddUserForm({ addUserModal }) {
       ...form,
       [e.target.name]: e.target.value,
     })
+  }
+
+  const RoleSelect = (e) => {
+    console.log(e);
+    setRole(e)
+    form.role = e;
   }
 
   const handleSubmit = (e) => {
@@ -38,7 +46,9 @@ function AddUserForm({ addUserModal }) {
           '\n email: ' +
           form.email +
           '\npassword: ' +
-          form.password
+          form.password +
+          '\nrole: ' +
+          form.role
       )
       addUserModal(form)
     }
@@ -95,7 +105,7 @@ function AddUserForm({ addUserModal }) {
   return (
     <div>
       <h2 style={{ textAlign: 'center' }}>{TextData.AddUserButtonText}</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
         <TextField
           required
           id='firstNameInput'
@@ -118,6 +128,7 @@ function AddUserForm({ addUserModal }) {
           value={form.lastName}
           onChange={(e) => handleChange(e)}
           helperText={errors.lastName}
+          
         />
         <br />
         <TextField
@@ -132,6 +143,18 @@ function AddUserForm({ addUserModal }) {
           helperText={errors.email}
         />
         <br />
+        <br />
+        <DropdownButton
+          name='role'
+          alignRight
+          title={role}
+          value={form.role}
+          id="dropdown-menu-align-right"
+          onSelect = {(e) => RoleSelect(e)}
+          >
+          <Dropdown.Item eventKey="Admin">Admin</Dropdown.Item>
+          <Dropdown.Item eventKey="Student">Student</Dropdown.Item>
+        </DropdownButton>
         <TextField
           required
           id='passwordInput'
@@ -143,7 +166,7 @@ function AddUserForm({ addUserModal }) {
           onChange={(e) => handleChange(e)}
           helperText={errors.password}
         />
-        <br></br>
+        <br/><br/>
         <button>{TextData.AddUserButtonText}</button>
       </form>
     </div>

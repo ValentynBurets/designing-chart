@@ -110,6 +110,7 @@ function UserListPage() {
     lastName: '',
     email: '',
     password: '',
+    role: ''
   })
 
   const addUser = (form) => {
@@ -127,7 +128,9 @@ function UserListPage() {
         '\n email: ' +
         newUser.email +
         '\npassword: ' +
-        newUser.password
+        newUser.password +
+        '\nrole: ' +
+        newUser.role
     )
   }
 
