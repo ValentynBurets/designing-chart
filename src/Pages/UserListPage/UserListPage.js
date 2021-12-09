@@ -138,6 +138,9 @@ function UserListPage() {
         '\nrole: ' +
         newUser.role
     )
+
+    setShowModal(false)
+
   }
 
   const classes = useStyles()
