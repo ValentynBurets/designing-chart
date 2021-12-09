@@ -1,5 +1,6 @@
 {
     "Header": "User List",
     "AddUserButtonText": "Add user",
-    "Position": "Position"
+    "Position": "Position",
+    "Role": "Role"
 }

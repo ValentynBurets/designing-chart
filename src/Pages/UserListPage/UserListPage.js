@@ -37,7 +37,14 @@ const columns = [
     minWidth: 100,
     align: 'left',
     format: (value) => value.toLocaleString('en-US'),
-  }
+  },
+  {
+    id: 'role',
+    label: 'Role',
+    minWidth: 100,
+    align: 'left',
+    format: (value) => value.toLocaleString('en-US'),
+  },
 ]
 
 const useStyles = makeStyles({
@@ -49,19 +56,18 @@ const useStyles = makeStyles({
   },
 })
 
-function createData(firstName, lastName, email, position) {
+function createData(firstName, lastName, email, role) {
   //some code for creating data
-  //const density = population / size;
-  return { firstName, lastName, email, position }
+  return { firstName, lastName, email, role }
 }
 
 const rows = [
-  createData('Ivan', 'Ivanov', 'Ivan.Ivanov@gmail.com'),
-  createData('Petro', 'Petrov', 'Petro.Petrov@gmail.com'),
-  createData('Stepan', 'Stepanov', 'Stepan.Stepanov@gmail.com'),
-  createData('Olexiy', 'Olexiev', 'Olexiy.Olexiev@gmail.com'),
-  createData('Fomka', 'Fomkovin', 'Fomka.Fomkovin@gmail.com'),
-  createData('Furry', 'Furriev', 'Furry.Furriev@gmail.com'),
+  createData('Ivan', 'Ivanov', 'Ivan.Ivanov@gmail.com', 'manager'),
+  createData('Petro', 'Petrov', 'Petro.Petrov@gmail.com', 'user'),
+  createData('Stepan', 'Stepanov', 'Stepan.Stepanov@gmail.com', 'worker'),
+  createData('Olexiy', 'Olexiev', 'Olexiy.Olexiev@gmail.com', 'user'),
+  createData('Fomka', 'Fomkovin', 'Fomka.Fomkovin@gmail.com', 'user'),
+  createData('Furry', 'Furriev', 'Furry.Furriev@gmail.com', 'worker'),
 ]
 
 const ModalWrapper = styled.div`
@@ -116,7 +122,7 @@ function UserListPage() {
   const addUser = (form) => {
     setNewUser(form)
     rows.push(
-      createData(form.firstName, form.lastName, form.email)
+      createData(form.firstName, form.lastName, form.email, form.role)
     )
     alert('new user added')
     console.log(
