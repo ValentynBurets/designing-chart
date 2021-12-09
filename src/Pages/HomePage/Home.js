@@ -4,6 +4,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Container } from 'react-bootstrap'
 import Image from "react-bootstrap/Image"
 import modeling from './HomeImages/modeling.png'
+import modeling2 from './HomeImages/modeling2.png'
+import analyse from './HomeImages/analyse.png'
+import codding from './HomeImages/codding.jpg'
+import testing from './HomeImages/testing.jpg'
 import designImage from './HomeImages/designImage.jpg'
 import informationImage from './HomeImages/informationImage.jpg'
 import TextData from "../../jsonData/Home.json"
@@ -29,96 +33,67 @@ function Home(props){
     return(
         <Container>
             <Row>
-                <Col>
-                    <Card
-                    bg="" 
-                border="success" 
-                className="cardTemplateStyle" 
-                 onClick={()=>{viewOrder(pageurls.userTaskList)}}
-            >
-                <Row>
-                    <Row className="PictureBlock">
-                        <Image  
-                            fluid={true} 
-                            //className="CardImageStyle"
-                            className={"img-responsive center-block w-100"}  
-                            src= {modeling}
-                            alt= 'picture'
-                        />   
-                    </Row>           
-                    <Col >
-                        <Card.Body>
-                            <Card.Text className="ml-3">
-                                {TextData.Modelling}
-                            </Card.Text>
-                            <Card.Text className="ml-3 CommentText">
-                                {TextData.ModellingTestSkills}
-                            </Card.Text>
-                        </Card.Body>
-                    </Col>
-                </Row>
-            </Card>    
-                </Col>
-                <Col>
-            <Card 
-                bg="" 
-                border="success" 
-                className="cardTemplateStyle" 
-                // onClick={viewOrder}
-            >
-                <Row>
-                    <Row className="PictureBlock">
-                        <Image  
-                            fluid={true} 
-                            //className="CardImageStyle"
-                            className={"img-responsive center-block w-100"}  
-                            src= {designImage}
-                            alt= 'picture'
-                        />   
-                    </Row>           
-                    <Col >
-                        <Card.Body>
-                            <Card.Text className="ml-3">
-                                {TextData.Design}
-                            </Card.Text>
-                            <Card.Text className="ml-3 CommentText">
-                                {TextData.DesignTestSkills}
-                            </Card.Text>
-                        </Card.Body>
-                    </Col>
-                </Row>
-            </Card>
-            </Col>
             <Col>
-            <Card 
-                bg="" 
-                border="success" 
-                className="cardTemplateStyle" 
-                // onClick={viewOrder}
-            >
-                <Row>
-                    <Row className="PictureBlock">
-                        <Image  
-                            fluid={true} 
-                            //className="CardImageStyle"
-                            className={"img-responsive center-block w-100"}  
-                            src= {informationImage}
-                            alt= 'picture'
-                        />   
-                    </Row>           
-                    <Col >
-                        <Card.Body>
-                            <Card.Text className="ml-3">
-                                {TextData.Theory}
-                            </Card.Text>
-                            <Card.Text className="ml-3 CommentText">
-                                {TextData.UsefulLinks}
-                            </Card.Text>
-                        </Card.Body>
-                    </Col>
-                </Row>
+            <Card style={{ width: '15rem', marginTop:'20px', height: '18rem' }}>
+                <Card.Img variant="top" src={modeling2} />
+                <Card.Body>
+                    <Card.Title>Modeling Module</Card.Title>
+                    <Card.Text>
+                   Test your skills at modelling
+                    </Card.Text>
+                </Card.Body>
             </Card>
             </Col>
+
+            <Col>
+            <Card style={{ width: '15rem', marginTop:'20px', height: '18rem' }} onClick={()=>{viewOrder(pageurls.userTaskList)}}>
+                <Card.Img variant="top" src={modeling} />
+                <Card.Body>
+                    <Card.Title>Design Module</Card.Title>
+                    <Card.Text>
+                   Test your skills at design
+                    </Card.Text>
+                </Card.Body>
+            </Card>
+            </Col>
+
+            <Col>
+            <Card style={{ width: '15rem', marginTop:'20px', height: '18rem' }}>
+                <Card.Img variant="top" src={analyse} />
+                <Card.Body>
+                    <Card.Title>Requirements Analysis Module</Card.Title>
+                    <Card.Text>
+                   Test your skills at requirements analysis
+                    </Card.Text>
+                </Card.Body>
+            </Card>
+            </Col>
+
+            <Col>
+            <Card style={{ width: '15rem', marginTop:'20px', height: '18rem' }}>
+                <Card.Img variant="top" src={codding} />
+                <Card.Body>
+                    <Card.Title>Codding Module</Card.Title>
+                    <Card.Text>
+                   Test your skills at codding
+                    </Card.Text>
+                </Card.Body>
+            </Card>
+            </Col>
+
+            <Col>
+            <Card style={{ width: '15rem', marginTop:'20px', height: '18rem' }}>
+                <Card.Img variant="top" src={testing} />
+                <Card.Body>
+                    <Card.Title>Testing Module</Card.Title>
+                    <Card.Text>
+                   Test your skills at testing
+                    </Card.Text>
+                </Card.Body>
+            </Card>
+            </Col>
+
+
             </Row>
         </Container>
     )
