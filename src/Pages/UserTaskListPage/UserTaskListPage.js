@@ -91,7 +91,7 @@ function UserTaskListPage(){
                                  id="dropdown-basic-button" title={selectedParams.selectedCategory} 
                                  onSelect={CategoryHandler}>
                                     {categories.map((item) => (
-                                        <Dropdown.Item eventKey={item.Name}>{item.Name}</Dropdown.Item>    
+                                        <Dropdown.Item eventKey={item.name}>{item.name}</Dropdown.Item>    
                                     ))}
                                 </DropdownButton>
                             </Col>

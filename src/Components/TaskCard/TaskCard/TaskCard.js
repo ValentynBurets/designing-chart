@@ -44,17 +44,20 @@ export default function TaskCard(props) {
                 <Col >
                     <Card.Title>{task.title}</Card.Title>
                     <Card.Text>
-                        {task.textDescription}
+                        {task.description}
                     </Card.Text>   
                 </Col>
 
                 <Coll className="ColBlock"> 
                     <Card.Text className="ml-3">
+                        {'Category: ' + 'cat'}
+                    </Card.Text>
+                    <Card.Text className="ml-3">
                         {TextData.ExpirationDate + date_day + " " + date_time}
                     </Card.Text>
-                    {(task.status == "Expired")
-                        ? (<Card.Title>{TextData.Status } <h4 className="TextRed">{task.status}</h4></Card.Title>)
-                        : (<Card.Title>{TextData.Status } <h4 className="TextGreen">{task.status}</h4></Card.Title>)
+                    {(task.statusType == "Expired")
+                        ? (<Card.Title>{TextData.Status } <h4 className="TextRed">{task.statusType}</h4></Card.Title>)
+                        : (<Card.Title>{TextData.Status } <h4 className="TextGreen">{task.statusType}</h4></Card.Title>)
                     }
                     {/* <Row>
                         <Button 
