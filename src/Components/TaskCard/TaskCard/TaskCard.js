@@ -53,6 +53,9 @@ export default function TaskCard(props) {
                         {'Category: ' + 'cat'}
                     </Card.Text>
                     <Card.Text className="ml-3">
+                        {'Max Mark: ' + 'mark'}
+                    </Card.Text>
+                    <Card.Text className="ml-3">
                         {TextData.ExpirationDate + date_day + " " + date_time}
                     </Card.Text>
                     {(task.statusType == "Expired")

@@ -39,7 +39,7 @@ function UserTaskListPage(){
     
     useEffect(()=>
         {
-            if(tasks != null && types != null && categories != null)
+            if(tasks != null && categories != null)
                 (saveData({isLoading: false}))
         },
         [tasks, types, categories]
