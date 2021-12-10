@@ -1,7 +1,7 @@
 import './TemplateStyle.css'
 import Button from 'react-bootstrap/Button'
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AddUserModalWindow } from './AddUser/ModalWindow'
 import styled from 'styled-components'
 import { makeStyles } from '@material-ui/core/styles'
@@ -15,17 +15,18 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 //import Container from '@material-ui/core/Container'
 import TextData from '../../jsonData/UserList.json'
+import axios from 'axios'
 
 const columns = [
   {
-    id: 'firstName',
+    id: 'name',
     label: 'First Name',
     minWidth: 100,
     align: 'left',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'lastName',
+    id: 'surname',
     label: 'Last Name',
     minWidth: 100,
     align: 'left',
@@ -56,19 +57,19 @@ const useStyles = makeStyles({
   },
 })
 
-function createData(firstName, lastName, email, role) {
+function createData(name, surname, email, role) {
   //some code for creating data
-  return { firstName, lastName, email, role }
+  return { name, surname, email, role }
 }
 
-const rows = [
-  createData('Ivan', 'Ivanov', 'Ivan.Ivanov@gmail.com', 'manager'),
-  createData('Petro', 'Petrov', 'Petro.Petrov@gmail.com', 'user'),
-  createData('Stepan', 'Stepanov', 'Stepan.Stepanov@gmail.com', 'worker'),
-  createData('Olexiy', 'Olexiev', 'Olexiy.Olexiev@gmail.com', 'user'),
-  createData('Fomka', 'Fomkovin', 'Fomka.Fomkovin@gmail.com', 'user'),
-  createData('Furry', 'Furriev', 'Furry.Furriev@gmail.com', 'worker'),
-]
+function createDataForPost(firstName, lastName, email, role, password) {
+  //some code for creating data
+  return { firstName, lastName, email, role, password }
+}
+
+
+
+let rows = []
 
 const ModalWrapper = styled.div`
   display: block;
@@ -105,7 +106,17 @@ const ModalContent = styled.div`
 `
 
 function UserListPage() {
+
+  
+  useEffect(() => {
+    loadUsers();
+  });
+
+  const [rows2, setRows2] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const classes = useStyles()
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
   const openModal = () => {
     setShowModal((prev) => !prev)
@@ -120,11 +131,12 @@ function UserListPage() {
   })
 
   const addUser = (form) => {
-    setNewUser(form)
-    rows.push(
-      createData(form.firstName, form.lastName, form.email, form.role)
-    )
+    
+    setNewUser(createData(form.firstName, form.lastName, form.email, form.role))
+    console.log(newUser)
+    
     alert('new user added')
+    
     console.log(
       'Parameters were got' +
         '\n password: ' +
@@ -139,13 +151,64 @@ function UserListPage() {
         newUser.role
     )
 
+    postUser(createDataForPost(form.firstName, form.lastName, form.email, form.role, form.password), newUser);
     setShowModal(false)
 
   }
 
-  const classes = useStyles()
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  function loadUsers(){
+    axios.get('https://localhost:44383/api/Profile/getAll', {
+      headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": 'Bearer ' + localStorage.getItem('token') //the token is a variable which holds the token
+      }
+    }).then((responce) => {
+      var data = responce.data;
+      rows = [];
+      Array.prototype.push.apply(rows, data);
+      setRows2(rows)
+      console.log(rows2)
+    })
+    .catch((e) => {
+      console.log(e)
+      alert(e)
+      return false
+    })
+
+  }
+
+  function postUser(newUser, rowUser){
+
+    if(newUser.role == 'Admin'){
+      axios
+      .post("https://localhost:44383/api/Authentication/RegisterAdmin", newUser)
+      .then((responce) => {
+        var data = responce.data;
+        loadUsers();
+      })
+      .catch((e) => {
+        console.log(e)
+        alert(e)
+        return false
+      })
+  
+    }
+    else{
+      axios
+      .post("https://localhost:44383/api/Authentication/RegisterStudent", newUser)
+      .then((responce) => {
+        var data = responce.data;
+        loadUsers();
+      })
+      .catch((e) => {
+        console.log(e)
+        alert(e)
+        return false
+      })
+    }
+
+  
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
