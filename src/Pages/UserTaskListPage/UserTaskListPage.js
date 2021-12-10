@@ -24,6 +24,11 @@ function UserTaskListPage(){
         })
     }
 
+    const clear = () =>{
+        setSortType('Choose Sort Type')
+        setSelectedParam(prevState => ({ ... prevState, selectedCategory: 'Choose Category' }))
+    }
+
     const [tasks, setTasks] = useState(null);
     const [categories, setCategories] = useState(null);
     const [types, setTypes] = useState(null);
@@ -40,23 +45,23 @@ function UserTaskListPage(){
         [tasks, types, categories]
     )
 
-    const [sortType,setSortType]=useState('');
+    const [sortType,setSortType] = useState('Choose Sort Type');
     const SortTypeSelect = (e) => {
-        console.log(e);
+        //console.log(e);
         setSortType(e)
     }
 
     const [selectedParams, setSelectedParam] = useState({
-        "selectedType": null,
-        "selectedCategory": null
+        "selectedType": 'Choose Type',
+        "selectedCategory": 'Choose Category'
     });
 
     const CategoryHandler = (CategoryName) => {
-        alert("sorting by" + CategoryName);
+        //alert("sorting by" + CategoryName);
         setSelectedParam(prevState => ({ ... prevState, selectedCategory: CategoryName }))
     }
     const TypeHandler = (TypeName) => {
-        alert("sorting by" + TypeName);
+        //alert("sorting by" + TypeName);
         setSelectedParam(prevState => ({ ... prevState, selectedType: TypeName }))
     }
 
@@ -67,57 +72,53 @@ function UserTaskListPage(){
             {data.isLoading 
                 ? <Loading/>
                 :<Container>
-                    <Row className='PageHeader'>
-                        <div>{TextData.PageTitle}</div>    
-                    </Row>
                     <Row>
-                        <Col md={{ span: 3, offset: 8 }}>
+                        <Col xs={6} md={8} className='PageHeader'>
+                            <div>Design Module Tasks</div>    
+                        </Col>
+                        <Col >
                             <Button className='BackButton' variant='primary' onClick={back}>
                                 {TextData.Back}
                             </Button>
                         </Col>
-                    </Row> 
-                    <Row>
-                        <Col md={{ span: 3, offset: 8 }}>
-                            <DropdownButton
-                                alignRight
-                                title={TextData.ChooseSortType}
-                                id="dropdown-menu-align-right"
-                                onSelect={SortTypeSelect}
-                            >
-                                <Dropdown.Item eventKey="Date">Date</Dropdown.Item>
-                                <Dropdown.Item eventKey="TitleName">Title Name</Dropdown.Item>
-                            </DropdownButton>
-                            <h10 className='HeaderText'> {TextData.ChosenSortType} { sortType}</h10>
-                        </Col>
                     </Row>
-                    <Row>
-                        <Col xs={6} md={4}>
-                            <Row className='HeaderText'>
-                                <div >{TextData.ChooseCategory}</div>
-                            </Row>
-                            <Row>
-                                <DropdownButton id="dropdown-basic-button" title={selectedParams.selectedCategory} onSelect={CategoryHandler}>
+                   
+                    <Row className='PageHeader'>
+                        
+                            <Col >
+                                <DropdownButton
+                                 className='DropDown'
+                                 id="dropdown-basic-button" title={selectedParams.selectedCategory} 
+                                 onSelect={CategoryHandler}>
                                     {categories.map((item) => (
                                         <Dropdown.Item eventKey={item.Name}>{item.Name}</Dropdown.Item>    
                                     ))}
                                 </DropdownButton>
-                            </Row>
-                            <Row className='HeaderText'>
-                                <div >{TextData.ChooseType}</div>
-                            </Row>
-                            <Row>
-                                <DropdownButton id="dropdown-basic-button" title={selectedParams.selectedType}  onSelect={TypeHandler}>
-                                    {types.map((item) => (
-                                        <Dropdown.Item eventKey={item.Name}>{item.Name}</Dropdown.Item>    
-                                    ))}
-                                </DropdownButton>
-                            </Row>
-                        </Col>
-                        <Col>
-                            <TaskCardDeck tasks = {tasks} />
-                        </Col>
+                            </Col>
+
+                                <Col>
+                                    <DropdownButton
+                                        className='DropDown'
+                                        alignRight
+                                        title={sortType}
+                                        id="dropdown-menu-align-right"
+                                        onSelect={SortTypeSelect}
+                                    >
+                                        <Dropdown.Item eventKey="Date">Date</Dropdown.Item>
+                                        <Dropdown.Item eventKey="TitleName">Title Name</Dropdown.Item>
+                                    </DropdownButton>
+                                </Col>
+                                <Col md={2}>
+                                    <Button className='BackButton' variant='primary' onClick={clear}>
+                                        Clear
+                                    </Button>
+                                </Col>
                     </Row>
+
+                    <Col>
+                        <TaskCardDeck tasks = {tasks} />
+                    </Col>
+
                 </Container>
             }
         </Container>
