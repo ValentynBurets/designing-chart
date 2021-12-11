@@ -6,7 +6,7 @@ export default function Layout(props) {
     return (
         <div >
             <Header/>
-            <Container className="h-100" fluid={true}>
+            <Container className="fill-window" fluid={true}>
                 {props.children}
             </Container>
             <Footer/>
