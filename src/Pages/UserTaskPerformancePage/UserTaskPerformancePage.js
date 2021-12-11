@@ -624,51 +624,102 @@ function UserTaskPerformancePage(){
   const location = useLocation();
   const exerciseId = location.taskId;
   const exerciseDescription = location.taskDescription;
+  const [startTime, setStartTime] = useState('');
 
     useEffect(() => {
       console.log(location);
+      
+      var today = new Date()
+      var hh = today.getHours();
+      var mm = today.getMinutes();
+      if(hh<10)
+      {
+        hh = '0'+ hh
+      }
+      if(mm<10)
+      {
+        mm = '0'+ mm
+      }
+      var time = hh+':'+mm
+
+      var today = new Date()
+      var dd = String(today.getDate()).padStart(2, '0')
+      var mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+      var yyyy = today.getFullYear()
+      today = yyyy + '-' + mm + '-' + dd
+      setStartTime(today+'T'+time+'Z')
+      console.log(startTime);
+
     }, [location]);
 
-  let [state, setState] = useState({
-    startTime: Date().toLocaleString(),
-    finishTime: "",
-    exerciseId: exerciseId,
-    chart: ""
-  });
 
   function handleSaveButClick(i){
     //converting chart to Json
-    let diagramElement = document.getElementById('diagram');
-    let diagram = diagramElement.ej2_instances[0];
-    setState(prevState => ({...prevState, chart: diagram.saveDiagram()}));
+    //let diagramElement = document.getElementById('diagram');
+    //let diagram = diagramElement.ej2_instances[0];
+    //setState(prevState => ({...prevState, chart: diagram.saveDiagram()}));
     
     //call to the back for save
-    axios.post("https://localhost:44383/api/Attempt/Create", state)
-    .then(response  => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    })
+    // axios.post("https://localhost:44383/api/Attempt/Create", state)
+    // .then(response  => {
+    //   console.log(response);
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // })
   }
 
   function handleSendButClick(i){
     //converting chart to Json
     let diagramElement = document.getElementById('diagram');
     let diagram = diagramElement.ej2_instances[0];
-    setState(prevState => ({...prevState, chart: diagram.saveDiagram()}));
+    var chartRes = diagram.saveDiagram();
+    //setState(prevState => ({...prevState, chart: diagram.saveDiagram()}));
 
     //time of finnish
-    setState(prevState => ({...prevState, finishTime: Date().toLocaleString()}));
-    
+    //setState(prevState => ({...prevState, finishTime: Date().toLocaleString()}));
+    //console.log(state);
+
+    var today = new Date()
+    var hh = today.getHours();
+    var mm = today.getMinutes();
+    if(hh<10)
+    {
+      hh = '0'+ hh
+    }
+    if(mm<10)
+    {
+      mm = '0'+ mm
+    }
+    var time = hh+':'+mm
+
+    var today = new Date()
+    var dd = String(today.getDate()).padStart(2, '0')
+    var mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+    var yyyy = today.getFullYear()
+    today = yyyy + '-' + mm + '-' + dd
+
+
+    var json = {
+      startTime: startTime,
+      finishTime: today+'T'+time+'Z',
+      exerciseId: exerciseId,
+      chart: chartRes
+    }
+    console.log(json);
+
     //call to the back for save and check
-    axios.post("https://localhost:44383/api/Attempt/Create", state)
-    .then(response  => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    })
+     axios.post("https://localhost:44383/api/Attempt/Create", json,{
+      headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": 'Bearer ' + localStorage.getItem('token') //the token is a variable which holds the token
+      }})
+     .then(response  => {
+       console.log(response);
+     })
+     .catch(error => {
+       console.log(error);
+     })
   }
 
   return (
