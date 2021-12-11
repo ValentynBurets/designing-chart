@@ -621,11 +621,14 @@ function contextMenuOpen(args) {
 
 function UserTaskPerformancePage(){
   
-  //get exercise ID, description and studentID
   const location = useLocation();
   const exerciseId = location.taskId;
   const exerciseDescription = location.taskDescription;
- 
+
+    useEffect(() => {
+      console.log(location);
+    }, [location]);
+
   let [state, setState] = useState({
     startTime: Date().toLocaleString(),
     finishTime: "",

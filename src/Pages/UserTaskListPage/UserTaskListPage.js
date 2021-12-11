@@ -8,6 +8,7 @@ import TextData from '../../jsonData/TaskListPage'
 import './TaskListStyle.sass'
 import { DropdownButton } from 'react-bootstrap';
 import { Dropdown } from 'react-bootstrap';
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 function UserTaskListPage(){
     let history = useHistory()
@@ -115,7 +116,7 @@ function UserTaskListPage(){
                                 </Col>
                     </Row>
 
-                    <Col>
+                    <Col>               
                         <TaskCardDeck tasks = {tasks} />
                     </Col>
 

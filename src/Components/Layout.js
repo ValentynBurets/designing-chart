@@ -9,7 +9,7 @@ export default function Layout(props) {
             <Container className="fill-window" fluid={true}>
                 {props.children}
             </Container>
-            <Footer/>
+            {/* <Footer/> */}
         </div>  
     );
 }

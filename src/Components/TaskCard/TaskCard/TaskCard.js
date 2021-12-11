@@ -22,7 +22,7 @@ export default function TaskCard(props) {
         history.push({
             pathname: pageurls.userTaskPerformance + "/" + `${props.task.id}`,
             taskId: `${props.task.id}`,
-            taskDescription: `${props.task.textDescription}`
+            taskDescription: `${props.task.description}`
         })
     }
 
