@@ -110,7 +110,7 @@ function UserListPage() {
   
   useEffect(() => {
     loadUsers();
-  });
+  },[]);
 
   const [rows2, setRows2] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -174,7 +174,6 @@ function UserListPage() {
       alert(e)
       return false
     })
-
   }
 
   function postUser(newUser, rowUser){

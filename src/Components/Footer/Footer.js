@@ -12,13 +12,12 @@ function Footer(){
       color: '#fff',
       //position: 'fixed',
       left: '0',
-      bottom: '0',
+      //bottom: '0',
       width: '100%',
-      position: 'absolute'
     }}
   >
     <Row>
-    <Navbar className="bar-container" bg="dark" variant="dark">
+        <Navbar className="bar-container" bg="dark" variant="dark">
             <Navbar.Brand className="ms-5">
                 {TextData.VLPI}
             </Navbar.Brand>

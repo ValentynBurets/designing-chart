@@ -469,6 +469,7 @@ function contextMenuOpen(args) {
 
 
 function AdminTaskCreationPage(){
+    let history = useHistory()
 
     const [categories, setCategories] = useState([]);
     const [stateTime, setStateTime] = useState('12:00');
@@ -506,7 +507,13 @@ function AdminTaskCreationPage(){
         }})
       .then(response  => {
         console.log(response);
-        alert(response);
+        alert(response.data);
+
+        if(response.data == 'New exercise created!'){
+          // history.push({
+          //   pathname: ''
+          // })
+        }
       })
       .catch(error => {
         console.log(error);

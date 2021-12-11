@@ -4,9 +4,9 @@ import Footer from './Footer/Footer';
 
 export default function Layout(props) {
     return (
-        <div className="h-100">
+        <div >
             <Header/>
-            <Container className="h-100 p-0" fluid={true}>
+            <Container className="h-100" fluid={true}>
                 {props.children}
             </Container>
             <Footer/>
