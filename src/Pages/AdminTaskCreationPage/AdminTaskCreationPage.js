@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "../AdminTaskCreationPage/AdminTaskCreationStyle.sass";
 import DateTimePicker from 'react-datetime-picker';
+import TextField from '@mui/material/TextField';
 
 import {
   Button,
@@ -46,6 +47,9 @@ import {
   DiagramContextMenu,
   DataBinding,
 } from "@syncfusion/ej2-react-diagrams";
+import { DropdownButton } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
+
 
 Diagram.Inject(DiagramContextMenu);
 
@@ -462,34 +466,70 @@ function contextMenuOpen(args) {
   args.hiddenItems = hiddenId;
 }
 
-function AdminTaskCreationPage(){
-    let [state, setState] = useState({
-        exerciseTitle: "",
-        exerciseDescription: "",
-        maxMark: 1,
-        expirationDate: Date().toLocaleString(),
-        category: "",
-        etalonChart: ""});
 
-  function handleCreateTaskButClick(i){
-    //converting chart to Json
-    let diagramElement = document.getElementById('diagram');
-    let diagram = diagramElement.ej2_instances[0];
-    let etalonChart = diagram.saveDiagram();
+
+function AdminTaskCreationPage(){
+
+    const [categories, setCategories] = useState([]);
+    const [stateTime, setStateTime] = useState('12:00');
+    const [stateDate, setStateDate] = useState('2021-07-11');
+    const [stateTitle, setStateTitle] = useState('');
+    const [stateDesc, setStateDesc] = useState('');
+    const [stateMaxMark, setStateMaxMark] = useState('');
+    const [stateCategory, setStateCategory] = useState('Choose Category');
+
+    const CategoryHandler = (CategoryName) => {
+      setStateCategory(CategoryName)
+    }
     
-    setState(prevState => ({...prevState, 
+    const handleCreateTaskButClick = (i) => {
+      //converting chart to Json
+      let diagramElement = document.getElementById('diagram');
+      let diagram = diagramElement.ej2_instances[0];
+      let etalonChart = diagram.saveDiagram();
+      
+      var json = {
+        title: stateTitle,
+        description: stateDesc,
+        maxMark: stateMaxMark,
+        expirationDate: stateDate + 'T'+ stateTime + 'Z',
+        category: stateCategory,
         etalonChart: etalonChart
-    }));
-    
-    //POST request to create exercise
-    axios.post("https://localhost:44383/api/Exercises/Create", state)
-    .then(response  => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
+      }
+      console.log(json)
+
+      //POST request to create exercise
+      axios.post("https://localhost:44383/api/Exercises/Create", json, {
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            "Authorization": 'Bearer ' + localStorage.getItem('token') //the token is a variable which holds the token
+        }})
+      .then(response  => {
+        console.log(response);
+        alert(response);
+      })
+      .catch(error => {
+        console.log(error);
+        alert(error);
+      })
+    }
+
+    useEffect(()=>
+    {
+      axios
+      .get('https://localhost:44383/api/Category/GetAll')
+      .then((responce) => {
+          var data = responce.data
+          if (data != null) {
+              setCategories(data)
+          }
+      })
+      .catch((e) => {
+          setCategories(null)
+          console.log(e)
+      });
+
+    },[])
 
   return (
       <>
@@ -508,9 +548,7 @@ function AdminTaskCreationPage(){
         <InputGroup className="mb-3">
             <InputGroup.Text id="exercise-title-input">Exercise title</InputGroup.Text>
             <FormControl
-                onChange={e => setState(prevState => ({...prevState, 
-                    exerciseTitle: e.target.value
-                }))}
+                onChange={e => setStateTitle(e.target.value)}
                 aria-label="Exercise title"
                 aria-describedby="exercise-title-input"
             />
@@ -518,9 +556,7 @@ function AdminTaskCreationPage(){
         <InputGroup className="mb-3">
             <InputGroup.Text id="exercise-description-input">Description</InputGroup.Text>
             <FormControl
-                onChange={e => setState(prevState => ({...prevState, 
-                    exerciseDescription: e.target.value
-                }))}
+                onChange={e => setStateDesc(e.target.value)}
                 aria-label="Exercise description"
                 aria-describedby="exercise-description-input"
             />
@@ -528,37 +564,45 @@ function AdminTaskCreationPage(){
         <InputGroup className="mb-3">
             <InputGroup.Text id="exercise-max-mark-input">Max mark</InputGroup.Text>
             <FormControl
-                onChange={e => setState(prevState => ({...prevState, 
-                    maxMark: e.target.value
-                }))}
+                onChange={e => setStateMaxMark(e.target.value)}
                 aria-label="Exercise max mark"
                 aria-describedby="exercise-max-mark-input"
             />
         </InputGroup>
+        <DropdownButton
+          className='DropDown'
+          id="dropdown-basic-button" title={stateCategory} 
+          onSelect={CategoryHandler}>
+            {categories.map((item) => (
+                <Dropdown.Item eventKey={item.name}>{item.name}</Dropdown.Item>    
+            ))}
+        </DropdownButton>
 
-        <Form.Select
-            onChange={e => setState(prevState => ({...prevState, 
-                category: e.target.value
-            }))}>
-            <option>Category</option>
-            <option>First category</option>
-            <option>Second category</option>
-            <option>Third category</option>
-        </Form.Select>
+        <TextField
+          id="date"
+          label="Date"
+          type="date"
+          value={stateDate}
+          sx={{ width: 220 }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={e => (setStateDate(e.target.value))}
+        />
 
-        <DateTimePicker 
-          id="finish-datetime-picker" 
-          name="Expiration date: "
-          required= {true}
-          showLeadingZeros= {true}
-          disableCalendar={true}
-          disableClock={true}
-          maxDetail="minute"
-          onChange={e => setState(prevState => ({...prevState, 
-            expirationDate: e.value
-          }))}
-          nativeInputAriaLabel="Date and time"
-          value={state.expirationDate}
+        <TextField
+          id="time"
+          label="Time"
+          type="time"
+          value={stateTime}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          inputProps={{
+            step: 300, // 5 min
+          }}
+          sx={{ width: 150 }}
+          onChange={e => (setStateTime(e.target.value))}
         />
 
         <div className="control-section">
