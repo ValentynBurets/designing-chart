@@ -32,9 +32,9 @@ const ExerciseResultRecord = ({record}) => {
           <TableCell component="th" scope="row">
             {record.title}
           </TableCell>
-          <TableCell>{record.coursePercentage}</TableCell>
-          <TableCell>{record.maxMark}</TableCell>
-          <TableCell>{record.averageMark}</TableCell>
+          <TableCell>{Number.parseFloat(record.coursePercentage).toFixed(1)}</TableCell>
+          <TableCell>{Number.parseFloat(record.maxMark).toFixed(1)}</TableCell>
+          <TableCell>{Number.parseFloat(record.averageMark).toFixed(1)}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -57,7 +57,7 @@ const ExerciseResultRecord = ({record}) => {
                         <TableCell component="th" scope="row">
                           {index + 1}
                         </TableCell>
-                        <TableCell align="left">{attempt.mark}</TableCell>
+                        <TableCell align="left">{Number.parseFloat(attempt.mark).toFixed(1)}</TableCell>
                         <TableCell align="left">{attempt.timeSpend}</TableCell>
                       </TableRow>
                     ))}

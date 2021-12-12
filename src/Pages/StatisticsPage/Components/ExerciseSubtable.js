@@ -16,10 +16,10 @@ const ExerciseSubtable = ({exercises}) => {
                 <TableHead>
                     <TableRow>
                         <TableCell> </TableCell>
-                        <TableCell align="left">Exercise</TableCell>
-                        <TableCell align="left">Course Percentage</TableCell>
-                        <TableCell align="left">Maximal Mark</TableCell>
-                        <TableCell align="left">Average Mark</TableCell>
+                        <TableCell align="left" style={{fontWeight: 'bold'}}>Exercise</TableCell>
+                        <TableCell align="left" style={{fontWeight: 'bold'}}>Course Percentage</TableCell>
+                        <TableCell align="left" style={{fontWeight: 'bold'}}>Maximal Mark</TableCell>
+                        <TableCell align="left" style={{fontWeight: 'bold'}}>Average Mark</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

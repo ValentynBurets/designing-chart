@@ -18,6 +18,7 @@ import axios from 'axios'
 
 function Header() {
 
+    let history = useHistory();
     const [name, setName] = useState(null);
     const [surname, setSurname] = useState(null);
     const [email, setEmail] = useState(null);
@@ -33,6 +34,9 @@ function Header() {
         localStorage.clear();
         setName(null);
         setSurname(null);
+        history.push({
+            pathname: '/about'
+        });
       }
 
     function handleSignIn(){
@@ -117,6 +121,7 @@ function Header() {
         if(localStorage.getItem('UserRole') == 'Student'){
             return(
             <>
+                <Nav.Link href="/home">Home</Nav.Link>
                 <Nav.Link href="/user-task-list">Tasks</Nav.Link>
                 <Nav.Link href="/statistics-page">Statistics</Nav.Link>
             </>)
@@ -139,7 +144,6 @@ function Header() {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="/home">Home</Nav.Link>
                     {getUserLinks()}
                     <Nav.Link href="/about">About Us</Nav.Link>
                 </Nav>

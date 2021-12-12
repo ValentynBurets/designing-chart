@@ -14,8 +14,8 @@ const StudentStatisticsRecord = ({record}) => {
     return (
       <React.Fragment>
         <TableRow> 
-          <TableCell align={record.align} style={{minWidth: record.minWidth }}>{record.user.surName + ' ' + record.user.name}</TableCell>
-          <TableCell align={record.align} style={{minWidth: record.minWidth }}>{record.totalProgress}</TableCell>
+          <TableCell align={record.align} style={{minWidth: record.minWidth, fontWeight: 'bold', fontSize:'20px' }}>{record.user.surName + ' ' + record.user.name}</TableCell>
+          <TableCell align={record.align} style={{minWidth: record.minWidth }}>{Number.parseFloat(record.totalProgress).toFixed(1) }</TableCell>
         </TableRow>
         <TableRow>
                 <TableCell>Exercises</TableCell>
