@@ -3,14 +3,15 @@ import { useHistory } from 'react-router-dom'
 import { Container, Col, Row, Button, Form } from 'react-bootstrap'
 import Loading from '../../Components/Loading/Loading'
 import LoadDataService from './Services/LoadDataService'
-import TaskCardDeck from '../../Components/TaskCard/TeskCardDeck/TaskCardDeck'
-import TextData from '../../jsonData/TaskListPage'
+import TaskCardDeckAdmin from '../../Components/TaskCardAdmin/TaskDeckAdmin/TaskCardDeckAdmin'
+//import TextData from '../../jsonData/TaskListPage'
 import './TaskListStyle.sass'
 import { DropdownButton } from 'react-bootstrap';
 import { Dropdown } from 'react-bootstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-function UserTaskListPage(){
+export default function AdminTaskListPage(){
+
     let history = useHistory()
 
     const [data, saveData] = useState({
@@ -79,7 +80,7 @@ function UserTaskListPage(){
                         </Col>
                         <Col >
                             <Button className='BackButton' variant='primary' onClick={back}>
-                                {TextData.Back}
+                                {"Back"}
                             </Button>
                         </Col>
                     </Row>
@@ -118,14 +119,12 @@ function UserTaskListPage(){
                     </Row>
 
                     <Col>               
-                        <TaskCardDeck tasks = {tasks} />
+                        <TaskCardDeckAdmin tasks = {tasks} />
                     </Col>
 
                 </Container>
             }
         </Container>
     )
+
 }
-
-export default UserTaskListPage
-

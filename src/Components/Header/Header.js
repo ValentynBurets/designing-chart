@@ -132,6 +132,7 @@ function Header() {
                 <Nav.Link href="/admin-task-creation">Create Task</Nav.Link>
                 <Nav.Link href="/user-list-page">Users</Nav.Link>
                 <Nav.Link href="/statistics-page">Statistics</Nav.Link>
+                <Nav.Link href="/admin-task-list-page">Tasks</Nav.Link>
             </>)
         }
     }

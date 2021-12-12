@@ -14,13 +14,13 @@ import './TaskCardStyle.sass'
 import pageurls from '../../../jsonData/pageURLs.json'
 
 
-export default function TaskCard(props) {
+export default function TaskCardAdmin(props) {
 
     let history = useHistory()
 
     const viewOrder = () =>{
         history.push({
-            pathname: pageurls.userTaskPerformance + "/" + `${props.task.id}`,
+            pathname: 'admin-task-info' + "/" + `${props.task.id}`,
             taskId: `${props.task.id}`,
             taskDescription: `${props.task.description}`
         })

@@ -7,6 +7,7 @@ import UserTaskPerformance from "./Pages/UserTaskPerformancePage/UserTaskPerform
 import AutorizationPage from "./Pages/AutorizationPage/AutorizationPage"
 import UserListPage from "./Pages/UserListPage/UserListPage"
 import StatisticsPage from "./Pages/StatisticsPage/StatisticsPage"
+import AdminTaskInfoPage from "./Pages/AdminTaskInfo/AdminTaskInfo"
 import AdminTaskCreationPage from './Pages/AdminTaskCreationPage/AdminTaskCreationPage';
 import pageurls from "./jsonData/pageURLs.json"
 
@@ -16,6 +17,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import AdminTaskListPage from './Pages/AdminTaskListPage/AdminTaskListPage';
 
 export default function App() {
   return (
@@ -74,6 +76,12 @@ export default function App() {
             </Route>
             <Route path={pageurls.userStatistics}>
               <StatisticsPage />
+            </Route>
+            <Route path="/admin-task-list-page">
+              <AdminTaskListPage />
+            </Route>
+            <Route path="/admin-task-info">
+              <AdminTaskInfoPage />
             </Route>
           </Layout>
         </Switch>
