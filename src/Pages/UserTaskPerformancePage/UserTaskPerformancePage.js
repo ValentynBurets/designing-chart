@@ -669,17 +669,22 @@ function UserTaskPerformancePage(){
     // })
   }
 
+
+  function getNodeInfoById(nodes, id){
+    for(var i = 0; i < nodes.length;i++){
+      if(nodes[i].id == id){
+        return nodes[i].shapeType + nodes[i].shapeName
+      }
+    }
+  }
+
+
   function handleSendButClick(i){
     //converting chart to Json
     let diagramElement = document.getElementById('diagram');
     let diagram = diagramElement.ej2_instances[0];
     var chartRes = diagram.saveDiagram();
-    //setState(prevState => ({...prevState, chart: diagram.saveDiagram()}));
-
-    //time of finnish
-    //setState(prevState => ({...prevState, finishTime: Date().toLocaleString()}));
-    //console.log(state);
-
+   
     var today = new Date()
     var hh = today.getHours();
     var mm = today.getMinutes();
@@ -699,15 +704,48 @@ function UserTaskPerformancePage(){
     var yyyy = today.getFullYear()
     today = yyyy + '-' + mm + '-' + dd
 
+    var obj = JSON.parse(chartRes);
+    var nodes = []
+    for(var i = 0; i < obj.nodes.length;i++){
+      var content = ''
+      if(obj.nodes[i].annotations.length >= 1){
+        content = obj.nodes[i].annotations[0].content
+      }
+      
+      var feed = {
+        id:obj.nodes[i].id,
+        shapeType:obj.nodes[i].shape.type,
+        shapeName:obj.nodes[i].shape.shape,
+        annotation:content
+      }
+      nodes.push(feed)
+    }
+
+    var connections = []
+    for(var i = 0; i < obj.connectors.length;i++){
+      var feed = {
+        type:obj.connectors[i].type,
+        sourceID:getNodeInfoById(nodes,obj.connectors[i].sourceID),
+        targetID:getNodeInfoById(nodes,obj.connectors[i].targetID),
+      }
+      connections.push(feed)
+    }
+    
+    var parsedChart = {
+      nodes:nodes,
+      connectors:connections
+    }
+    console.log(JSON.stringify(connections));
+    console.log(JSON.stringify(parsedChart));
 
     var json = {
       startTime: startTime,
       finishTime: today+'T'+time+'Z',
       exerciseId: exerciseId,
-      chart: chartRes
+      chart: JSON.stringify(connections)
     }
     console.log(json);
-
+    
     //call to the back for save and check
      axios.post("https://localhost:44383/api/Attempt/Create", json,{
       headers: {

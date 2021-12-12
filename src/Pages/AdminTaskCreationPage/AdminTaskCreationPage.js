@@ -466,6 +466,13 @@ function contextMenuOpen(args) {
   args.hiddenItems = hiddenId;
 }
 
+function getNodeInfoById(nodes, id){
+  for(var i = 0; i < nodes.length;i++){
+    if(nodes[i].id == id){
+      return nodes[i].shapeType + nodes[i].shapeName
+    }
+  }
+}
 
 
 function AdminTaskCreationPage(){
@@ -488,6 +495,36 @@ function AdminTaskCreationPage(){
       let diagramElement = document.getElementById('diagram');
       let diagram = diagramElement.ej2_instances[0];
       let etalonChart = diagram.saveDiagram();
+      var obj = JSON.parse(etalonChart);
+      
+      var nodes = []
+      for(var i = 0; i < obj.nodes.length;i++){
+        var content = ''
+        if(obj.nodes[i].annotations.length >= 1){
+          content = obj.nodes[i].annotations[0].content
+        }
+        
+        var feed = {
+          id:obj.nodes[i].id,
+          shapeType:obj.nodes[i].shape.type,
+          shapeName:obj.nodes[i].shape.shape,
+          annotation:content
+        }
+        nodes.push(feed)
+      }
+
+      var connections = []
+      for(var i = 0; i < obj.connectors.length;i++){
+        var feed = {
+          type:obj.connectors[i].type,
+          sourceID:getNodeInfoById(nodes,obj.connectors[i].sourceID),
+          targetID:getNodeInfoById(nodes,obj.connectors[i].targetID),
+        }
+        connections.push(feed)
+      }
+
+
+
       
       var json = {
         title: stateTitle,
@@ -495,7 +532,7 @@ function AdminTaskCreationPage(){
         maxMark: stateMaxMark,
         expirationDate: stateDate + 'T'+ stateTime + 'Z',
         category: stateCategory,
-        etalonChart: etalonChart
+        etalonChart: JSON.stringify(connections)
       }
       console.log(json)
 
