@@ -3,6 +3,8 @@ import "../AdminTaskCreationPage/AdminTaskCreationStyle.sass";
 import DateTimePicker from 'react-datetime-picker';
 import TextField from '@mui/material/TextField';
 
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 import {
   Button,
   Row,
@@ -49,6 +51,7 @@ import {
 } from "@syncfusion/ej2-react-diagrams";
 import { DropdownButton } from 'react-bootstrap';
 import { Dropdown } from 'react-bootstrap';
+import { Container } from "@mui/material";
 
 
 Diagram.Inject(DiagramContextMenu);
@@ -478,10 +481,11 @@ function getNodeInfoById(nodes, id){
 function AdminTaskCreationPage(){
     let history = useHistory()
 
+    const [stateTaskAdded,setTaskAdded] = useState(false)
     const [categories, setCategories] = useState([]);
     const [stateTime, setStateTime] = useState('12:00');
     const [stateDate, setStateDate] = useState('2021-07-11');
-    const [stateTitle, setStateTitle] = useState('');
+    const [stateTitle, setStateTitle] = useState('Title');
     const [stateDesc, setStateDesc] = useState('');
     const [stateMaxMark, setStateMaxMark] = useState('');
     const [stateCategory, setStateCategory] = useState('Choose Category');
@@ -523,9 +527,6 @@ function AdminTaskCreationPage(){
         connections.push(feed)
       }
 
-
-
-      
       var json = {
         title: stateTitle,
         description: stateDesc,
@@ -535,31 +536,33 @@ function AdminTaskCreationPage(){
         etalonChart: JSON.stringify(connections)
       }
       console.log(json)
+      setTaskAdded(true)
 
       //POST request to create exercise
-      axios.post("https://localhost:44383/api/Exercises/Create", json, {
-        headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            "Authorization": 'Bearer ' + localStorage.getItem('token') //the token is a variable which holds the token
-        }})
-      .then(response  => {
-        console.log(response);
-        alert(response.data);
+      // axios.post("https://localhost:44383/api/Exercises/Create", json, {
+      //   headers: {
+      //       "Content-type": "application/json; charset=UTF-8",
+      //       "Authorization": 'Bearer ' + localStorage.getItem('token') //the token is a variable which holds the token
+      //   }})
+      // .then(response  => {
+      //   console.log(response);
+      //   alert(response.data);
 
-        if(response.data == 'New exercise created!'){
-          // history.push({
-          //   pathname: ''
-          // })
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        alert(error);
-      })
+      //   if(response.data == 'New exercise created!'){
+      //     // history.push({
+      //     //   pathname: ''
+      //     // })
+      //   }
+      // })
+      // .catch(error => {
+      //   console.log(error);
+      //   alert(error);
+      // })
     }
 
     useEffect(()=>
     {
+      setTaskAdded(false)
       axios
       .get('https://localhost:44383/api/Category/GetAll')
       .then((responce) => {
@@ -576,8 +579,8 @@ function AdminTaskCreationPage(){
     },[])
 
   return (
-      <>
 
+    !stateTaskAdded?
       <div className="control-pane" style={{backgroundColor: 'grey'}}>
       
         <Row className="m-3" >
@@ -585,7 +588,7 @@ function AdminTaskCreationPage(){
             <Button variant="primary" className="m-1" onClick={handleCreateTaskButClick}>Create task</Button>
           </Col>
           <Col>
-            <Button variant="primary" onClick={useHistory().goBack}>Back</Button>
+            {/* <Button variant="primary" onClick={useHistory().goBack}>Back</Button> */}
           </Col>
         </Row>
 
@@ -728,7 +731,35 @@ function AdminTaskCreationPage(){
           </div>
         </div>
       </div>
-
+      :
+      <>
+      <div>
+        <Container maxWidth="sm" style={{marginTop:'300px'}}>
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Task Added
+            </Typography>
+            <Row>
+                <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                Title: {stateTitle}
+                </Typography>
+                <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                  Category: {stateCategory}
+                </Typography>
+                <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                  Max Mark: {stateMaxMark}
+                </Typography>
+                <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                  Expiration Date: {stateDate} {stateTime}
+                </Typography>
+            </Row>
+          </Container>
+      </div>
       </>
     );
 }
