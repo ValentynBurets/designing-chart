@@ -87,8 +87,10 @@ const StatisticsForm = ({filter, setFilter}={
                                 {value:"maxMarkAsc", name:"Max Mark Ascending"},
                                 {value:"averageMarkDesc", name:"Average Mark Descending"},
                                 {value:"averageMarkAsc", name: "Average Mark Ascending"},
-                                {value:"timeSpendDesc", name:"Time Spended Descending"},
-                                {value:"timeSpendAsc", name: "Time Spended Ascending"},
+                                {value:"coursePercentageDesc", name:"Course Percentage Descending"},
+                                {value:"coursePercentageAsc", name: "Course Percentage Ascending"},
+                                {value:"attemptsCountDesc", name:"Attempts Count Descending"},
+                                {value:"attemptsCountAsc", name: "Attempts Count Ascending"},
                             ]} />
                     </Col>
                 </Row>

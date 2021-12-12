@@ -32,7 +32,7 @@ const ExerciseResultRecord = ({record}) => {
           <TableCell component="th" scope="row">
             {record.title}
           </TableCell>
-          <TableCell>{Number.parseFloat(record.coursePercentage).toFixed(1)}</TableCell>
+          <TableCell>{Number.parseFloat(record.coursePercentage).toFixed(1) + "%"}</TableCell>
           <TableCell>{Number.parseFloat(record.maxMark).toFixed(1)}</TableCell>
           <TableCell>{Number.parseFloat(record.averageMark).toFixed(1)}</TableCell>
         </TableRow>
@@ -49,6 +49,8 @@ const ExerciseResultRecord = ({record}) => {
                       <TableCell align="left">№</TableCell>
                       <TableCell align="left">Mark</TableCell>
                       <TableCell align="left">Time Spended</TableCell>
+                      <TableCell align="left">Start Date</TableCell>
+                      <TableCell align="left">End Date</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -59,6 +61,8 @@ const ExerciseResultRecord = ({record}) => {
                         </TableCell>
                         <TableCell align="left">{Number.parseFloat(attempt.mark).toFixed(1)}</TableCell>
                         <TableCell align="left">{attempt.timeSpend}</TableCell>
+                        <TableCell align="left">{new Date(attempt.startDate).toLocaleString('en-GB',({year: 'numeric', month: 'numeric', day: 'numeric'}))}</TableCell>
+                        <TableCell align="left">{new Date(attempt.endDate).toLocaleString('en-GB',({year: 'numeric', month: 'numeric', day: 'numeric'}))}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

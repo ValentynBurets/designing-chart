@@ -27,8 +27,8 @@ const StatisticsPage = function () {
                 userName: filter.name,
                 startDate: filter.startDate,
                 endDate: filter.endDate,
-                category: filter.category//,
-                // sorting: filter.sort
+                category: filter.category,
+                sort: filter.sort
             },
             headers: {
                 "Content-type": "application/json; charset=UTF-8",

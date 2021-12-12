@@ -22,7 +22,7 @@ const StudentStatisticsList = ({record}) => {
                     <TableHead>
                     <TableRow>
                         <TableCell align="left">My Total Progress</TableCell>
-                        <TableCell align="left">{Number.parseFloat(record.totalProgress).toFixed(1)}</TableCell>
+                        <TableCell align="left">{Number.parseFloat(record.totalProgress).toFixed(1)+ "%"}</TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
