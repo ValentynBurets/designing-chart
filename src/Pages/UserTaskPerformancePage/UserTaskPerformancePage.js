@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import "../UserTaskPerformancePage/UserTaskPerformanceStyle.css";
 
+import Typography from '@mui/material/Typography';
 import {
   Button,
   Row,
   Col,
-  FormControl
+  FormControl,
+  Container
 } from 'react-bootstrap'
 
 import { useEffect } from "react";
@@ -625,10 +627,13 @@ function UserTaskPerformancePage(){
   const exerciseId = location.taskId;
   const exerciseDescription = location.taskDescription;
   const [startTime, setStartTime] = useState('');
+  const [startTimeForm, setStartTimeForm] = useState('');
+  const [spendTime, setSpendTime] = useState('');
+  const [isTaskCompeted, setTaskCompeted] = useState(false);
 
     useEffect(() => {
       console.log(location);
-      
+      setStartTimeForm(Date())
       var today = new Date()
       var hh = today.getHours();
       var mm = today.getMinutes();
@@ -677,7 +682,6 @@ function UserTaskPerformancePage(){
       }
     }
   }
-
 
   function handleSendButClick(i){
     //converting chart to Json
@@ -742,9 +746,13 @@ function UserTaskPerformancePage(){
       startTime: startTime,
       finishTime: today+'T'+time+'Z',
       exerciseId: exerciseId,
-      chart: JSON.stringify(connections)
+      chart: chartRes
     }
     console.log(json);
+    var finishTime = new Date();
+    alert(startTimeForm - finishTime)
+    setSpendTime(startTimeForm - finishTime);
+    //setTaskCompeted(true);
     
     //call to the back for save and check
      axios.post("https://localhost:44383/api/Attempt/Create", json,{
@@ -754,6 +762,7 @@ function UserTaskPerformancePage(){
       }})
      .then(response  => {
        console.log(response);
+      setTaskCompeted(true);
      })
      .catch(error => {
        console.log(error);
@@ -761,8 +770,27 @@ function UserTaskPerformancePage(){
   }
 
   return (
+    isTaskCompeted?
       <>
-
+        <Container maxWidth="sm" style={{marginTop:'300px'}}>
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Task Completed
+            </Typography>
+            <Row>
+                {/* <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                  Time: {spendTime}
+                </Typography> */}
+            </Row>
+          </Container>
+      </>
+      :
+      <>
       <div className="control-pane" style={{backgroundColor: 'grey'}}>
       
         <Row className="m-3" >
@@ -771,7 +799,7 @@ function UserTaskPerformancePage(){
             <Button variant="primary" className="m-1"  onClick={handleSendButClick}>Send for check</Button>
           </Col>
           <Col>
-            <Button variant="primary" onClick={useHistory().goBack}>Back</Button>
+            {/* <Button variant="primary" onClick={useHistory().goBack}>Back</Button> */}
           </Col>
         </Row>
         <FormControl
@@ -858,7 +886,6 @@ function UserTaskPerformancePage(){
           </div>
         </div>
       </div>
-
       </>
     );
 }

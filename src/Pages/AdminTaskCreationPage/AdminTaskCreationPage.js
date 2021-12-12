@@ -533,31 +533,32 @@ function AdminTaskCreationPage(){
         maxMark: stateMaxMark,
         expirationDate: stateDate + 'T'+ stateTime + 'Z',
         category: stateCategory,
-        etalonChart: JSON.stringify(connections)
+        etalonChart: etalonChart
       }
       console.log(json)
-      setTaskAdded(true)
+      console.log(etalonChart)
 
       //POST request to create exercise
-      // axios.post("https://localhost:44383/api/Exercises/Create", json, {
-      //   headers: {
-      //       "Content-type": "application/json; charset=UTF-8",
-      //       "Authorization": 'Bearer ' + localStorage.getItem('token') //the token is a variable which holds the token
-      //   }})
-      // .then(response  => {
-      //   console.log(response);
-      //   alert(response.data);
+      axios.post("https://localhost:44383/api/Exercises/Create", json, {
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            "Authorization": 'Bearer ' + localStorage.getItem('token') //the token is a variable which holds the token
+        }})
+      .then(response  => {
+        console.log(response);
+        alert(response.data);
+        setTaskAdded(true)
 
-      //   if(response.data == 'New exercise created!'){
-      //     // history.push({
-      //     //   pathname: ''
-      //     // })
-      //   }
-      // })
-      // .catch(error => {
-      //   console.log(error);
-      //   alert(error);
-      // })
+        if(response.data == 'New exercise created!'){
+          // history.push({
+          //   pathname: ''
+          // })
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        alert(error);
+      })
     }
 
     useEffect(()=>
