@@ -5,6 +5,7 @@ import UserTaskListPage from "./Pages/UserTaskListPage/UserTaskListPage"
 import UserTaskPerformance from "./Pages/UserTaskPerformancePage/UserTaskPerformancePage"
 import AutorizationPage from "./Pages/AutorizationPage/AutorizationPage"
 import UserListPage from "./Pages/UserListPage/UserListPage"
+import StatisticsPage from "./Pages/StatisticsPage/StatisticsPage"
 import AdminTaskCreationPage from './Pages/AdminTaskCreationPage/AdminTaskCreationPage';
 import pageurls from "./jsonData/pageURLs.json"
 
@@ -69,6 +70,9 @@ export default function App() {
             </Route>
             <Route path={pageurls.adminTaskCreation}>
               <AdminTaskCreationPage />
+            </Route>
+            <Route path={pageurls.userStatistics}>
+              <StatisticsPage />
             </Route>
           </Layout>
         </Switch>
