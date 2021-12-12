@@ -598,19 +598,56 @@ export default function AdminTaskInfoPage(){
           </Container>
       </>
       :
-        <div className="control-pane" style={{backgroundColor: 'grey'}}>
+      <>
+      <div className="control-pane PageHeader" >
       
         <Row className="m-3" >
-          <Col lg={10}>
+          <Col >
             <Button variant="primary" className="m-1" onClick={handleUpdateTaskButClick}>Update task</Button>
           </Col>
           <Col>
-            {/* <Button variant="primary" onClick={useHistory().goBack}>Back</Button> */}
+            <DropdownButton
+            className='DropDown'
+            id="dropdown-basic-button" title={stateCategory} 
+            onSelect={CategoryHandler}>
+              {categories.map((item) => (
+                  <Dropdown.Item eventKey={item.name}>{item.name}</Dropdown.Item>    
+              ))}
+          </DropdownButton>
+          </Col>
+          <Col>
+          <TextField
+          id="date"
+          label="Date"
+          type="date"
+          value={stateDate}
+          sx={{ width: 220 }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={e => (setStateDate(e.target.value))}
+        />
+          </Col>
+          <Col>
+          <TextField
+          id="time"
+          label="Time"
+          type="time"
+          value={stateTime}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          inputProps={{
+            step: 300, // 5 min
+          }}
+          sx={{ width: 150 }}
+          onChange={e => (setStateTime(e.target.value))}
+        />
           </Col>
         </Row>
 
         <InputGroup className="mb-3">
-            <InputGroup.Text id="exercise-title-input">Exercise title</InputGroup.Text>
+            <InputGroup.Text id="exercise-title-input">Title</InputGroup.Text>
             <FormControl
                 value={stateTitle}
                 onChange={e => setStateTitle(e.target.value)}
@@ -636,43 +673,16 @@ export default function AdminTaskInfoPage(){
                 aria-describedby="exercise-max-mark-input"
             />
         </InputGroup>
-        <DropdownButton
-          className='DropDown'
-          id="dropdown-basic-button" title={stateCategory} 
-          onSelect={CategoryHandler}>
-            {categories.map((item) => (
-                <Dropdown.Item eventKey={item.name}>{item.name}</Dropdown.Item>    
-            ))}
-        </DropdownButton>
+        
 
-        <TextField
-          id="date"
-          label="Date"
-          type="date"
-          value={stateDate}
-          sx={{ width: 220 }}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={e => (setStateDate(e.target.value))}
-        />
+        
+          
+        
 
-        <TextField
-          id="time"
-          label="Time"
-          type="time"
-          value={stateTime}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          inputProps={{
-            step: 300, // 5 min
-          }}
-          sx={{ width: 150 }}
-          onChange={e => (setStateTime(e.target.value))}
-        />
-
-        <div className="control-section">
+        
+      </div>
+      <hr style={{width:"90%", margin:"auto"}}/>
+      <div className="control-section" style={{marginLeft:"5%",marginRight:"5%"}}>
           <div
             id="palette-space"
             className="sb-mobile-palette"
@@ -750,7 +760,7 @@ export default function AdminTaskInfoPage(){
             </DiagramComponent>
           </div>
         </div>
-      </div>
+      </>
     );
 
 }

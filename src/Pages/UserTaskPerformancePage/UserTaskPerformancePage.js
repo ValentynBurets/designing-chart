@@ -791,7 +791,7 @@ function UserTaskPerformancePage(){
       </>
       :
       <>
-      <div className="control-pane" style={{backgroundColor: 'grey'}}>
+      <div className="control-pane PageHeader" >
       
         <Row className="m-3" >
           <Col lg={10}>
@@ -807,84 +807,85 @@ function UserTaskPerformancePage(){
           type="text"
           placeholder= {"Exercise description: " + exerciseDescription}
         />
-        <div className="control-section">
-          <div
-            id="palette-space"
-            className="sb-mobile-palette"
-          >
-            <SymbolPaletteComponent
-              id="symbolpalette"
-              expandMode="Multiple"
-              palettes={[
-                {
-                  id: "Bpmn",
-                  expanded: true,
-                  symbols: bpmnShapes,
-                  iconCss: "e-diagram-icons1 e-diagram-Bpmn",
-                  title: "Bpmn Shapes"
-                },
-                {
-                  id: "connectors",
-                  expanded: true,
-                  symbols: getConnectors(),
-                  iconCss: "e-diagram-icons1 e-diagram-connector",
-                  title: "Connectors"
-                }
-              ]}
-              width={"100%"}
-              height={"550px"}
-              symbolHeight={60}
-              symbolWidth={60}
-              symbolMargin={{ left: 15, right: 15, top: 15, bottom: 15 }}
-              getNodeDefaults={(symbol) => {
-                symbol.style.strokeColor = '#757575';
-              }}
-              getSymbolInfo={(symbol) => {
-                return { fit: true };
-              }}
-            ><Inject services={[BpmnDiagrams, UndoRedo, DiagramContextMenu, DataBinding]} />
-            </SymbolPaletteComponent>
-          </div>
-
-          <div
-            id="diagram-space"
-            className="sb-mobile-diagram sb-bpmn-editor"
-          >
-            <DiagramComponent
-              id="diagram"
-              ref={diagram => (diagramInstance = diagram)}
-              width={"100%"}
-              height={"550px"}
-              snapSettings={{ constraints: 0 }}
-              nodes={[]}
-              connectors={[]}
-              //Sets the default values of a node
-              contextMenuSettings={contextMenu}
-              contextMenuOpen={contextMenuOpen}
-              contextMenuClick={contextMenuClick}
-              dragEnter={(args) => {
-                let obj = args.element;
-                if (obj instanceof Node) {
-                  if (!obj.shape.activity.subProcess.collapsed) {
-                    obj.shape.activity.subProcess.transaction.cancel.visible = true;
-                    obj.shape.activity.subProcess.transaction.failure.visible = true;
-                    obj.shape.activity.subProcess.transaction.success.visible = true;
-                  } else {
-                    let oWidth = obj.width;
-                    let oHeight = obj.height;
-                    let ratio = 100 / obj.width;
-                    obj.width = 100;
-                    obj.height *= ratio;
-                    obj.offsetX += (obj.width - oWidth) / 2;
-                    obj.offsetY += (obj.height - oHeight) / 2;
-                  }
-                }
+        
+      </div>
+      <hr style={{width:"90%", margin:"auto"}}/>
+      <div className="control-section" style={{marginLeft:"5%",marginRight:"5%"}}>
+      <div
+        id="palette-space"
+        className="sb-mobile-palette"
+      >
+        <SymbolPaletteComponent
+          id="symbolpalette"
+          expandMode="Multiple"
+          palettes={[
+            {
+              id: "Bpmn",
+              expanded: true,
+              symbols: bpmnShapes,
+              iconCss: "e-diagram-icons1 e-diagram-Bpmn",
+              title: "Bpmn Shapes"
+            },
+            {
+              id: "connectors",
+              expanded: true,
+              symbols: getConnectors(),
+              iconCss: "e-diagram-icons1 e-diagram-connector",
+              title: "Connectors"
+            }
+          ]}
+          width={"100%"}
+          height={"550px"}
+          symbolHeight={60}
+          symbolWidth={60}
+          symbolMargin={{ left: 15, right: 15, top: 15, bottom: 15 }}
+          getNodeDefaults={(symbol) => {
+            symbol.style.strokeColor = '#757575';
+          }}
+          getSymbolInfo={(symbol) => {
+            return { fit: true };
+          }}
+        ><Inject services={[BpmnDiagrams, UndoRedo, DiagramContextMenu, DataBinding]} />
+        </SymbolPaletteComponent>
+      </div>
+      <div
+        id="diagram-space"
+        className="sb-mobile-diagram sb-bpmn-editor"
+      >
+        <DiagramComponent
+          id="diagram"
+          ref={diagram => (diagramInstance = diagram)}
+          width={"100%"}
+          height={"550px"}
+          snapSettings={{ constraints: 0 }}
+          nodes={[]}
+          connectors={[]}
+          //Sets the default values of a node
+          contextMenuSettings={contextMenu}
+          contextMenuOpen={contextMenuOpen}
+          contextMenuClick={contextMenuClick}
+          dragEnter={(args) => {
+            let obj = args.element;
+            if (obj instanceof Node) {
+              if (!obj.shape.activity.subProcess.collapsed) {
+                obj.shape.activity.subProcess.transaction.cancel.visible = true;
+                obj.shape.activity.subProcess.transaction.failure.visible = true;
+                obj.shape.activity.subProcess.transaction.success.visible = true;
+              } else {
+                let oWidth = obj.width;
+                let oHeight = obj.height;
+                let ratio = 100 / obj.width;
+                obj.width = 100;
+                obj.height *= ratio;
+                obj.offsetX += (obj.width - oWidth) / 2;
+                obj.offsetY += (obj.height - oHeight) / 2;
               }
-              }
-            ><Inject services={[BpmnDiagrams, UndoRedo, DiagramContextMenu, DataBinding]} />
-            </DiagramComponent>
-          </div>
-        </div>
+            }
+          }
+          }
+        ><Inject services={[BpmnDiagrams, UndoRedo, DiagramContextMenu, DataBinding]} />
+        </DiagramComponent>
+      </div>
       </div>
       </>
     );
