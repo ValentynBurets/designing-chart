@@ -1,6 +1,7 @@
 import './App.css';
 import Layout from './Components/Layout';
 import Home from "./Pages/HomePage/Home"
+import About from "./Pages/AboutPage/About"
 import UserTaskListPage from "./Pages/UserTaskListPage/UserTaskListPage"
 import UserTaskPerformance from "./Pages/UserTaskPerformancePage/UserTaskPerformancePage"
 import AutorizationPage from "./Pages/AutorizationPage/AutorizationPage"
@@ -81,6 +82,4 @@ export default function App() {
   );
 }
 
-function About() {
-  return <h2>About</h2>;
-}
+
