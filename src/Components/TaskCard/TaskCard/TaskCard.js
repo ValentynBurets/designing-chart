@@ -50,10 +50,10 @@ export default function TaskCard(props) {
 
                 <Coll className="ColBlock"> 
                     <Card.Text className="ml-3">
-                        {'Category: ' + 'cat'}
+                        {'Category: ' + task.categoryTypeName}
                     </Card.Text>
                     <Card.Text className="ml-3">
-                        {'Max Mark: ' + 'mark'}
+                        {'Max Mark: ' + task.maxMark}
                     </Card.Text>
                     <Card.Text className="ml-3">
                         {TextData.ExpirationDate + date_day + " " + date_time}

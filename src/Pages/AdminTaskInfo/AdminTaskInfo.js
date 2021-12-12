@@ -480,11 +480,7 @@ function getNodeInfoById(nodes, id){
 
 export default function AdminTaskInfoPage(){
 
-    const handleCreateTaskButClick = (i) => {
-
-
-    }
-
+    const [isUpdated,setIsUpdated] = useState(false);
     const location = useLocation();
     const [exerciseId, setExerciseId] = useState(location.taskId);
     const [categories, setCategories] = useState([]);
@@ -494,6 +490,40 @@ export default function AdminTaskInfoPage(){
     const [stateDesc, setStateDesc] = useState('');
     const [stateMaxMark, setStateMaxMark] = useState('');
     const [stateCategory, setStateCategory] = useState('Choose Category');
+
+    const handleUpdateTaskButClick = (i) => {
+        
+        let diagramElement = document.getElementById('diagram');
+        let diagram = diagramElement.ej2_instances[0];
+        let etalonChart = diagram.saveDiagram();
+        
+        var json = {
+            title: stateTitle,
+            description: stateDesc,
+            maxMark: stateMaxMark,
+            expirationDate: stateDate + 'T'+ stateTime + 'Z',
+            category: stateCategory,
+            etalonChart: etalonChart
+          }
+
+          console.log(json)
+
+        axios.put(`https://localhost:44383/api/Exercises/Edit`,json,{
+            params: {
+                id: exerciseId,
+            }
+        })
+        .then((responce) => {
+            if (responce != null) {
+                console.log(responce)
+                setIsUpdated(true);
+            }
+        })
+        .catch((e) => {
+            console.log(e)
+        });
+    }
+
 
     function getCategories(){
         axios
@@ -546,21 +576,33 @@ export default function AdminTaskInfoPage(){
 
     useEffect(()=>
     {
-        //alert(location.taskId)
-        //setExerciseId(location.taskId);
-
         getCategories();
-        getExercise();
-
-        
+        getExercise();   
     },[])
 
     return(
+
+
+      isUpdated?
+      <>
+        <Container maxWidth="sm" style={{marginTop:'300px'}}>
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Task Updated
+            </Typography>
+          </Container>
+      </>
+      :
         <div className="control-pane" style={{backgroundColor: 'grey'}}>
       
         <Row className="m-3" >
           <Col lg={10}>
-            <Button variant="primary" className="m-1" onClick={handleCreateTaskButClick}>Create task</Button>
+            <Button variant="primary" className="m-1" onClick={handleUpdateTaskButClick}>Update task</Button>
           </Col>
           <Col>
             {/* <Button variant="primary" onClick={useHistory().goBack}>Back</Button> */}
