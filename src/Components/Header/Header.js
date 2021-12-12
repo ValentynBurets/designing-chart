@@ -118,7 +118,7 @@ function Header() {
             return(
             <>
                 <Nav.Link href="/user-task-list">Tasks</Nav.Link>
-                <Nav.Link href="#user-stats">Statistics</Nav.Link>
+                <Nav.Link href="/statistics-page">Statistics</Nav.Link>
             </>)
         }
         else if(localStorage.getItem('UserRole') == 'Admin'){
@@ -126,6 +126,7 @@ function Header() {
             <>
                 <Nav.Link href="/admin-task-creation">Create Task</Nav.Link>
                 <Nav.Link href="/user-list-page">Users</Nav.Link>
+                <Nav.Link href="/statistics-page">Statistics</Nav.Link>
             </>)
         }
     }
